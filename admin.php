@@ -39,7 +39,7 @@ $form = '';
 $form .= '<form action="" method="post">' . mso_form_session('f_session_id');
     
 // показвать юзеров?
-if (!isset($options['hide_users']))  $options['hide_users'] = false;
+if (!isset($options['hide_users']))  $options['hide_users'] = true;
 $chckout = ''; 
 if ( (bool)$options['hide_users'] )
 {
@@ -49,7 +49,7 @@ $form .= '<p>' . t('Скрыть "администраторов"?', __FILE__)
 	. ' <input name="f_hide_users" type="checkbox" ' . $chckout . '></p>';
 
 // показывать комюзеров?
-if (!isset($options['hide_comusers']))  $options['hide_comusers'] = true;
+if (!isset($options['hide_comusers']))  $options['hide_comusers'] = false;
 $chckout = ''; 
 if ( (bool)$options['hide_comusers'] )
 {
@@ -59,7 +59,7 @@ $form .= '<p>' . t('Скрыть "Комюзеров (пользователей
 	. ' <input name="f_hide_comusers" type="checkbox" ' . $chckout . '></p>';
 
 // показывать активных комюзеров?
-if (!isset($options['hide_active_comusers']))  $options['hide_active_comusers'] = true;
+if (!isset($options['hide_active_comusers']))  $options['hide_active_comusers'] = false;
 $chckout = ''; 
 if ( (bool)$options['hide_active_comusers'] )
 {
@@ -69,7 +69,7 @@ $form .= '<p>' . t('Скрыть "Активных"?', __FILE__)
 	. ' <input name="f_hide_active_comusers" type="checkbox" ' . $chckout . '></p>';
 
 // показывать не активных комюзеров?
-if (!isset($options['hide_no_active_comusers']))  $options['hide_no_active_comusers'] = true;
+if (!isset($options['hide_no_active_comusers']))  $options['hide_no_active_comusers'] = false;
 $chckout = ''; 
 if ( (bool)$options['hide_no_active_comusers'] )
 {

@@ -175,10 +175,10 @@ function statistic_widget_custom($options = array(), $num = 1)
 
 	// опции из админки
 	$options_admin = mso_get_option('plugin_statistic', 'plugins', array());
-	if (!isset($options_admin['hide_users']))  $options_admin['hide_users'] = false;
-	if (!isset($options_admin['hide_comusers']))  $options_admin['hide_comusers'] = true;
-	if (!isset($options_admin['hide_active_comusers']))  $options_admin['hide_active_comusers'] = true;
-	if (!isset($options_admin['hide_no_active_comusers']))  $options_admin['hide_no_active_comusers'] = true;
+	if (!isset($options_admin['hide_users']))  $options_admin['hide_users'] = true;
+	if (!isset($options_admin['hide_comusers']))  $options_admin['hide_comusers'] = false;
+	if (!isset($options_admin['hide_active_comusers']))  $options_admin['hide_active_comusers'] = false;
+	if (!isset($options_admin['hide_no_active_comusers']))  $options_admin['hide_no_active_comusers'] = false;
 		
 	// заголовок
 	$out .= $options['header'];
