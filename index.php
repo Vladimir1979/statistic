@@ -179,7 +179,17 @@ function statistic_widget_custom($options = array(), $num = 1)
 	if (!isset($options_admin['hide_comusers']))  $options_admin['hide_comusers'] = false;
 	if (!isset($options_admin['hide_active_comusers']))  $options_admin['hide_active_comusers'] = false;
 	if (!isset($options_admin['hide_no_active_comusers']))  $options_admin['hide_no_active_comusers'] = false;
-		
+	if (!isset($options_admin['hide_article_dignity_blogs']))  $options_admin['hide_article_dignity_blogs'] = false;
+	if (!isset($options_admin['hide_comments_dignity_blogs']))  $options_admin['hide_comments_dignity_blogs'] = false;
+	if (!isset($options_admin['hide_topic_dignity_forum']))  $options_admin['hide_topic_dignity_forum'] = false;
+	if (!isset($options_admin['hide_reply_dignity_forum']))  $options_admin['hide_reply_dignity_forum'] = false;
+	if (!isset($options_admin['hide_video_dignity_video']))  $options_admin['hide_video_dignity_video'] = false;
+	if (!isset($options_admin['hide_comments_dignity_video']))  $options_admin['hide_comments_dignity_video'] = false;
+	if (!isset($options_admin['hide_joke_dignity_joke']))  $options_admin['hide_joke_dignity_joke'] = false;
+	if (!isset($options_admin['hide_comments_dignity_joke']))  $options_admin['hide_comments_dignity_joke'] = false;
+	if (!isset($options_admin['hide_soft_dignity_soft']))  $options_admin['hide_soft_dignity_soft'] = false;
+	if (!isset($options_admin['hide_comments_dignity_soft']))  $options_admin['hide_comments_dignity_soft'] = false;
+
 	// заголовок
 	$out .= $options['header'];
 
@@ -221,6 +231,174 @@ function statistic_widget_custom($options = array(), $num = 1)
 	    $CI->db->where('comusers_activate_string', '');
 	    $out .= '<p>' . t('Заблудившихся: ', __FILE__) . $CI->db->count_all_results() . '</p>';
     }
+
+    global $MSO;
+
+    // если плагин включен, выводим статистику
+    if (in_array('dignity_blogs', $MSO->active_plugins))
+	{
+		if (!$options_admin['hide_article_dignity_blogs'])
+		{
+			// количество статей в блогах
+		  	$CI->db->from('dignity_blogs');
+		    $CI->db->where('dignity_blogs_approved', 1);
+		    $out .= '<p>' . t('Статей в блогах: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+		}
+
+		if (!$options_admin['hide_comments_dignity_blogs'])
+		{
+			// количество комментариев в блогах
+		    $CI->db->from('dignity_blogs_comments');
+		    $CI->db->where('dignity_blogs_comments_approved', 1);
+		    $out .= '<p>' . t('Комментариев в блогах: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+		}
+	}
+
+	// если влючен плагин, выводим статистику
+	if (in_array('dignity_forum', $MSO->active_plugins))
+	{
+		if (!$options_admin['hide_topic_dignity_forum'])
+		{
+			// количество тем на форуме
+		  	$CI->db->from('dignity_forum_topic');
+		    $CI->db->where('dignity_forum_topic_approved', 1);
+		    $out .= '<p>' . t('Тем на форуме: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+		}
+
+		if (!$options_admin['hide_reply_dignity_forum'])
+		{
+			// количество ответов на форуме
+		    $CI->db->from('dignity_forum_reply');
+		    $CI->db->where('dignity_forum_reply_approved', 1);
+		    $out .= '<p>' . t('Ответов на форуме: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+		}
+	}
+
+	// если включен плагин, выводим статистику
+	if (in_array('dignity_video', $MSO->active_plugins))
+	{
+		if (!$options_admin['hide_video_dignity_video'])
+		{
+			// количество видео записей
+		  	$CI->db->from('dignity_video');
+		    $CI->db->where('dignity_video_approved', 1);
+		    $out .= '<p>' . t('Опубликовано видео: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	    }
+
+	    if (!$options_admin['hide_comments_dignity_video'])
+	    {
+		    // количество комментариев к видео записям
+		    $CI->db->from('dignity_video_comments');
+		    $CI->db->where('dignity_video_comments_approved', 1);
+		    $out .= '<p>' . t('Комментариев к видео: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	    }
+	}
+
+	// если включен плагин, выводим статистику
+	if (in_array('dignity_joke', $MSO->active_plugins))
+	{
+		if (!$options_admin['hide_joke_dignity_joke'])
+		{
+			// количество анекдотов
+		  	$CI->db->from('dignity_joke');
+		    $CI->db->where('dignity_joke_approved', 1);
+		    $out .= '<p>' . t('Опубликовано анекдотов: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+		}
+
+		if (!$options_admin['hide_comments_dignity_joke'])
+		{
+		    // количество комментариев к анекдотам
+		    $CI->db->from('dignity_joke_comments');
+		    $CI->db->where('dignity_joke_comments_approved', 1);
+		    $out .= '<p>' . t('Комментариев к анекдотам: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	    }
+	}
+
+	// если включен плагин, выводим статистику
+	if (in_array('dignity_soft', $MSO->active_plugins))
+	{
+		if (!$options_admin['hide_soft_dignity_soft'])
+		{
+			// количество приложений
+		  	$CI->db->from('dignity_soft');
+		    $CI->db->where('dignity_soft_approved', 1);
+		    $out .= '<p>' . t('Опубликовано приложений: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	    }
+
+	    if (!$options_admin['hide_comments_dignity_soft'])
+	    {
+		    // количество комментариев к приложениям
+		    $CI->db->from('dignity_soft_comments');
+		    $CI->db->where('dignity_soft_comments_approved', 1);
+		    $out .= '<p>' . t('Комментариев к приложениям: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	    }
+	}
+
+    /*
+    // Новых
+	$CI->db->from('comusers');
+	$CI->db->where("UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`comusers_last_visit`) < 900");
+	$out .= '<p>' . t('Новых: ', __FILE__) . $CI->db->count_all_results() . '</p>';
+	*/
+
+    /*
+
+	НЕ РАБОТАЕТ!
+
+    // сколько комюзеров в онлайне
+    // http://forum.max-3000.com/viewtopic.php?f=4&t=27
+    // интервал 15 минут (900 секунд)
+    function comusers_online_count($interval = 900)
+    {
+	   
+	   $key = 'comusers_online_count_' . $interval;
+	   $ret = mso_get_cache($key);
+	   if( !$ret ){
+	   	  $CI = &get_instance();
+	      $CI->db->where("UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`comusers_last_visit`) <  $interval");
+	      $CI->db->from('comusers');
+	      $ret = $CI->db->count_all_results();
+	      
+	      mso_add_cache($key,$ret,300); // в кэше на 5 минут
+	   }
+	   
+	   return $ret;
+	}
+
+	$out .= '<p>' . t('Сейчас на сайте: ', __FILE__) . comusers_online_count() . '<p>';
+
+	// кто именно в онлайне
+	// http://forum.max-3000.com/viewtopic.php?f=4&t=27
+	// 15 минут, отображать 10 пользователей
+	function who_online($interval = 900,$limit = 10)
+	{
+   
+	   $key = 'who_online';
+	   $ret = mso_get_cache($key);
+
+	   if( !$ret )
+	   {
+	      $CI = &get_instance();
+	      $CI->db->select('*');
+	      $CI->db->limit($limit);
+	      $CI->db->where("UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`comusers_last_visit`) <  $interval");
+	      $query = $CI->db->get('comusers');
+	      
+	      if( $query->num_rows() )
+	      {
+	        $ret = $query->result_array();
+	        mso_add_cache($key,$ret,300); // в кэше на 5 минут
+	      }
+	   }
+	   
+	   return $ret;
+	}
+
+	if (comusers_online_count() > 0)
+	{
+		$out .= '<p>' . t('Кто онлайн? ', __FILE__) . who_online() . '</p>';
+	}
+	*/
 
     // код с сайта usuarios-online
 	if($options['usuarios_online_code'])
